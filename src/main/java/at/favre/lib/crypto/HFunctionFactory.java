@@ -36,6 +36,13 @@ public interface HFunctionFactory {
     HFunction createInstance();
 
     /**
+     * Get a user readable description of the used H-function (e.g. SHA-256 or HmacSha1 or similar)
+     *
+     * @return description
+     */
+    String getDescription();
+
+    /**
      * Default implementation
      */
     final class Default {
@@ -125,6 +132,11 @@ public interface HFunctionFactory {
                     throw new IllegalStateException("could not make message digest in concat kdf", e);
                 }
             }
+
+            @Override
+            public String getDescription() {
+                return "MessageDigest[" + algorithmName + "]";
+            }
         }
 
         /**
@@ -171,6 +183,11 @@ public interface HFunctionFactory {
                 } catch (Exception e) {
                     throw new IllegalStateException("could not make mac in concat kdf", e);
                 }
+            }
+
+            @Override
+            public String getDescription() {
+                return "MAC[" + algorithmName + "]";
             }
         }
     }
