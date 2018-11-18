@@ -47,6 +47,15 @@ public final class ConcatKdf {
     }
 
     /**
+     * Get a user readable description of the used H-function (e.g. SHA-256 or HmacSha1 or similar)
+     *
+     * @return description
+     */
+    public String getHFunctionDescription() {
+        return digestFactory.getDescription();
+    }
+
+    /**
      * KDM - a one step key derivation function as described in NIST SP 800-56C REV. 1 Chapter 4.1.
      * <p>
      * Derives a new key from given parameters. This call omits the salt which is applicable for KDFs
@@ -58,7 +67,7 @@ public final class ConcatKdf {
      * @param outLengthBytes called 'L' in the spec: a positive integer that indicates the length
      *                       (in bytes) of the secret keying material to be derived (ie. how long the output
      *                       will be in bytes)
-     * @return derived bytes used as key
+     * @return derived keying material (to use as secret key)
      */
     public byte[] derive(byte[] sharedSecretZ,
                          int outLengthBytes) {
@@ -82,7 +91,7 @@ public final class ConcatKdf {
      * @param outLengthBytes called 'L' in the spec: a positive integer that indicates the length
      *                       (in bytes) of the secret keying material to be derived (ie. how long the output
      *                       will be in bytes)
-     * @return derived bytes used as key
+     * @return derived keying material (to use as secret key)
      */
     public byte[] derive(byte[] sharedSecretZ,
                          byte[] fixedInfo,
@@ -109,7 +118,7 @@ public final class ConcatKdf {
      * @param outLengthBytes called 'L' in the spec: a positive integer that indicates the length
      *                       (in bytes) of the secret keying material to be derived (ie. how long the output
      *                       will be in bytes)
-     * @return derived bytes used as key
+     * @return derived keying material (to use as secret key)
      */
     public byte[] derive(byte[] sharedSecretZ,
                          byte[] salt,
@@ -121,7 +130,7 @@ public final class ConcatKdf {
         checkOutLength(outLengthBytes);
 
         final HFunction digest = digestFactory.createInstance();
-        final int hashLength = digest.getHFuncOutputBytes();
+        final int hashLengthBytes = digest.getHFuncOutputBytes();
 
         int counter = 1;
         int outputLenSum = 0;
@@ -135,28 +144,16 @@ public final class ConcatKdf {
 
         ByteBuffer buffer = ByteBuffer.allocate(outLengthBytes);
 
-        if (outLengthBytes > hashLength) {
-            do {
-                outputLenSum += hashLength;
-                buffer.put(createHashRound(sharedSecretZ, fixedInfo, counter, digest), 0, hashLength);
-            }
-            while ((counter++) < (outLengthBytes / hashLength));
-        }
+        int reps = (int) Math.ceil((float) outLengthBytes / (float) hashLengthBytes);
 
-        if (outputLenSum < outLengthBytes) {
-            buffer.put(createHashRound(sharedSecretZ, fixedInfo, counter, digest), 0, outLengthBytes - outputLenSum);
-        }
+        do {
+            buffer.put(
+                    createHashRound(sharedSecretZ, fixedInfo, counter, digest), 0,
+                    reps == counter ? outLengthBytes - outputLenSum : hashLengthBytes);
+            outputLenSum += hashLengthBytes;
+        } while (counter++ < reps);
 
         return buffer.array();
-    }
-
-    /**
-     * Get a user readable description of the used H-function (e.g. SHA-256 or HmacSha1 or similar)
-     *
-     * @return description
-     */
-    public String getHFunctionDescription() {
-        return digestFactory.getDescription();
     }
 
     private void checkOutLength(long outLengthByte) {
