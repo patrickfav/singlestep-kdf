@@ -2,33 +2,42 @@ sudo: required
 language: java
 install: true
 jdk:
-- oraclejdk8
+  - oraclejdk8
+
+env:
+  global:
+  - secure: "YDS+pN6os7qC8FUe4cwUgqfvgYTaOkLmEgc21GRIztDXAIpov61PjCsOwGbZjVOgUahU8f6qLWZ8dfkjitP65tdTMywYDKhVgb6xYGPwkt82AuKDJXlVRgYQRoUo/hl94IDcu4Yk49FHHWXKcUCOEAjIrpgUIIMguTroPg46Qoh5nrfeL2d9/K8XLB0rqcUfFeyClcQgF7dMSkD7trkGSoqVRwidUDwZrRR9tQsM+mWAviL8JhhVB5biN17CLn/xmbVd85ml1XFwneSTsKBK3+Ah/nujB6XZmDltCiwXDOBHrDLaliwP8LCHI96PFuUpfrdHG1ixBkTULzIWO4nEJ8ucWx4j3ygSruvUNE8a7XkalP2fGFjHjYIHhQgs+I5ve0fM+fOxaXWPvMFhbmk05k5m6U+WTji1w1awvsmPnYwjjg8M0sWleXNLhqaqZK3fwBj6I05OnYeKMT26VDGhmtu4E88TaNkrrj/6gsIVgZh/mwmrSW/+skHeDKnD+M3RqEaJPDqmHemYD8uTBaSm+/6DowsblDa3j9GYj2p5LydNGMnLOALizYFCrsmbrSJCSowRbn32x/pCA3PeQddFwlZ9eMmxMhEYXysFblKnXR0+oB4uu+HY8hUG+MzVEVzANmYMiS5No3Mc+UVxwFJFUwmxgukcPaxYchGrieRcMFg="
+  - secure: "GGeJgwmHDPe9wyE7DWO1qRoMjZmKrQGtgwf836w1nvvm5Q1Oulak6GracKMphICT2TD4h4wj7s0NPC1gqmb/jihCzqSEuYzWVKlEZlu6MquwD+nmMU2MSyd9dlti3sAqH1sU6tWmpN4CJUTfBd6f9ZvBubQVHgv4fb+WMmFOgCIDcLVwy9mLQ6qugnEZhYggmZyP5FvzPSsGu2BQgjITyC4ry3ciRyLZLjYoxO+5LeWR/eg2WoSo0uxHYpkJQNUP1hI0WGRTAdCo/tHo3YaTSyWVT9/rb6OBWqsWmhEgNI/4IGGLqqFXHXJKTyoyZ5ireAYy65yseImRvgEsOWIgXS1gji5nV12P2VB4Vdq8GN0gfuckvpZH3e0lBIMHOBoS9/usr1WuGphptuyrtFcFozYT8S1ncRfX+cj/emoImi8kcvzJa0Xvbq56dcDOxjAhd7E4sw2fYui7JmIxhJKbzgACQ1g6iBl2xe++OlCsVtTarHb9NwB6/F3DzXsWIeAZEM7N7Nzrz6AhSNyfVblkUKCimv3RB52ecfmli8RHwrdXLzFFo7vnr4fMPCxTyxW8G1hDXYHSmQ+g9uHTS06Lx3JKsJ0xVihqlb2ITuSSX42Q4GJf7E4hBniY0MCg0MAgAX154AwIXFMw5iyevD8HRPy/E3f8WsgEEwWJCLySIMo="
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_874f18e13406_key -iv $encrypted_874f18e13406_iv -in secrets.tar.enc -out secrets.tar -d
+  - tar xvf secrets.tar
 
 script:
-- mvn clean install -X -Djarsigner.skip=false checkstyle:check
+  - mvn clean install -X -Djarsigner.skip=false checkstyle:check
 
 after_success:
-- mvn test jacoco:report coveralls:report
+  - mvn test jacoco:report coveralls:report
 
 deploy:
-- provider: script
-  script: mvn -s ci-settings.xml deploy -X checkstyle:checkstyle
-  skip_cleanup: true
-  on:
-    branch: master
-    tags: true
-- provider: releases
-  api_key:
-    secure: "YtK6gh4f6ax5JITgE6N3SIZUN3gzCp3meLfzWtRJmRlntU5VOQYnwzsL7CeVMxm/A+5uIalSRNrc+AqYpOYphmNYz2BDnEQDocKXugkbpH2N7FVGNBS8EXu7ZC2MR/0/sy1E43+trReFdPsNWx5kM04SsQB61aA2StwESSWz7x5ZbU2qk+d1N5NWa3qDo1Mig9N/6qdkvef8y+XavbQus9F9cGUdspminmriFgg9x4otkHD+9f5YhfITpf0Zt00XO/wRkckFTh1un8B56dTJ7JVnMatwM+HGydSZ3KNquZobT400V8nnO3a2CsjzjhSSULklv9ASzVv5D5p6oZpAuUOlIIqsVQzxCdLq/qRJCgjvphmAsX5MBzE9sRqaK+HLXcN2Bs0sQzj7tozQgECBv/9dUrQ7F/wvegNI6HqLHF66YmR+JMpFGab1RlvqZ+SKB7TwY67kdZkHJxaxfjc0/y7IO0Fdiigw8qQNfTSQ+oRPyGMwGKnMDeNHKeJ67LWNGjyjprG/Ywh6zgwEYnAIiwEncOMhdRGSobKqeYU3o4uOGD7zLnMC2pLtPhi+ymj4tEOjmpNmtZn69Q6J177i4cVJNjYPXuXVcwM/JxmxZU7u0XwomV6LVkWQKx9qmwET0gT1uX1sxC1IPmQA/77uKQNqFGRydm/rCHcO5lEe1Kc="
-  file_glob: true
-  file:
-  - "target/concat-*.jar"
-  - "target/*.sha256"
-  - "target/checksum-sha256.txt"
-  skip_cleanup: true
-  on:
-    branch: master
-    tags: true
+  - provider: script
+    script: mvn -s ci-settings.xml deploy -X checkstyle:checkstyle
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
+  - provider: releases
+    api_key:
+      secure: "OUt8CaFFdEVRmoLnqiqcyUkRAlhonOw+fAvQEAYl6ROA8cRRzhSleVIElmRkwVsaNCWsmOyviEPSbuzGKQAajQTjRP5y44/eX+aLBkZDVhjCyH1hhR63NzZTgYJZeE00AT+Fqd1afrPDHYVyBI+zX7/9CUu34pbARh/Bkbpk79CATkAcI9+OAGAs7flhBvToa3MIWOW6Bwy+1liiQnzAGNGPRL4GmwUPpTgccoPSn/HfV11gzEI1krf+bAZg/dGmVonTTi2FyOWo1pAiiaQ6oDlrFBPoRZYSYjFJ+PeoeHoQT2hWSibywUkzdWmQN6lhXXjIlTENHo3PAutDQUrQJlfu4FeVTeSXqRxNuGYzLNwQDKwgXDPhWEiDXp1swkKYRMS6TGMOktTJid9GbUS/nPG6g6rGRqlb0CuTeX5dm94zmiuoWaxp9HKj84ksF6AknzD2BI8bTKVNxgzNnDofW75EgD4cAC/kDtsCbiTEvpUZTSaW9HbLliFIDh8BUOj80ctZM0Qt75Qn41Oa4whHQJtPv4iAQ1r4HqtKGhrE4TtqkQRPRiUyAQVGiWFWmU88c5JoFL5D820ImYgbCgfKi8oNAWAwW6PVP5X8ZriUstkf0yx3Gzvjp7jYZbsNUx+nAcZooIUSf0o1BHriUFRtCgidQvZSHzZ7ZHsGQqYGGDc="
+    file_glob: true
+    file:
+    - "target/concat-*.jar"
+    - "target/*.sha256"
+    - "target/checksum-sha256.txt"
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
 
 cache:
   directories:
