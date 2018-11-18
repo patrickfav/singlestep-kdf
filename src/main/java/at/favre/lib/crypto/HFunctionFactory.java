@@ -165,11 +165,11 @@ public interface HFunctionFactory {
                         mac = Mac.getInstance(algorithmName, provider);
                     }
 
-                    return new HFunction.HmacHFunction(mac);
+                    return new HFunction.MacHFunction(mac);
                 } catch (NoSuchAlgorithmException e) {
-                    throw new IllegalStateException("defined message digest algorithm was not found", e);
+                    throw new IllegalStateException("defined mac algorithm was not found", e);
                 } catch (Exception e) {
-                    throw new IllegalStateException("could not make message digest in concat kdf", e);
+                    throw new IllegalStateException("could not make mac in concat kdf", e);
                 }
             }
         }

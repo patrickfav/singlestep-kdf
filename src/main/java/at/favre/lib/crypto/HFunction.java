@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 /**
  * The auxiliary function used to produce blocks of keying
  * material during the execution of the one-step key-derivation
- * method.
+ * method. Basically an abstraction of either {@link MessageDigest} or {@link Mac}
  * <p>
  * Options for the Auxiliary Function H:
  * <ul>
@@ -87,10 +87,10 @@ public interface HFunction {
     /**
      * HMAC implementation of the H function
      */
-    final class HmacHFunction implements HFunction {
+    final class MacHFunction implements HFunction {
         private final Mac mac;
 
-        public HmacHFunction(Mac mac) {
+        public MacHFunction(Mac mac) {
             this.mac = mac;
         }
 
