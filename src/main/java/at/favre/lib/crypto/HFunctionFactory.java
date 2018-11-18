@@ -40,6 +40,9 @@ public interface HFunctionFactory {
      */
     final class Default {
 
+        private Default() {
+        }
+
         /**
          * Creates a factory creating SHA-256
          *
@@ -80,7 +83,7 @@ public interface HFunctionFactory {
         /**
          * Simple factory for message digests
          */
-        public final static class DigestFactory implements HFunctionFactory {
+        public static final class DigestFactory implements HFunctionFactory {
             private final String algorithmName;
             private final Provider provider;
 
@@ -127,7 +130,7 @@ public interface HFunctionFactory {
         /**
          * Simple factory for MAC
          */
-        public final static class MacFactory implements HFunctionFactory {
+        public static final class MacFactory implements HFunctionFactory {
             private final String algorithmName;
             private final Provider provider;
 
