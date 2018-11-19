@@ -3,6 +3,8 @@ package at.favre.lib.crypto;
 import at.favre.lib.bytes.Bytes;
 import org.junit.Test;
 
+import java.security.Security;
+
 import static org.junit.Assert.*;
 
 public class HFunctionFactoryTest {
@@ -20,9 +22,11 @@ public class HFunctionFactoryTest {
     @Test
     public void testSimpleChecks() {
         simpleCheck(new HFunctionFactory.Default.DigestFactory("SHA-256"));
+        simpleCheck(new HFunctionFactory.Default.DigestFactory("SHA-256", Security.getProvider("BC")));
         simpleCheck(new HFunctionFactory.Default.DigestFactory("SHA-384"));
         simpleCheck(new HFunctionFactory.Default.DigestFactory("SHA-512"));
         simpleCheck(new HFunctionFactory.Default.MacFactory("HmacSha256"));
+        simpleCheck(new HFunctionFactory.Default.MacFactory("HmacSha256", Security.getProvider("BC")));
         simpleCheck(new HFunctionFactory.Default.MacFactory("HmacSha512"));
         simpleCheck(HFunctionFactory.Default.sha256());
         simpleCheck(HFunctionFactory.Default.sha512());
