@@ -128,8 +128,6 @@ public interface HFunctionFactory {
                     return new HFunction.MessageDigestHFunction(messageDigest);
                 } catch (NoSuchAlgorithmException e) {
                     throw new IllegalStateException("defined message digest algorithm was not found", e);
-                } catch (Exception e) {
-                    throw new IllegalStateException("could not make message digest in kdf", e);
                 }
             }
 
@@ -180,8 +178,6 @@ public interface HFunctionFactory {
                     return new HFunction.MacHFunction(mac);
                 } catch (NoSuchAlgorithmException e) {
                     throw new IllegalStateException("defined mac algorithm was not found", e);
-                } catch (Exception e) {
-                    throw new IllegalStateException("could not make mac in kdf", e);
                 }
             }
 
