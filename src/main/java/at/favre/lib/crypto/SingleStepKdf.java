@@ -5,6 +5,43 @@ import at.favre.lib.bytes.Bytes;
 import java.nio.ByteBuffer;
 import java.util.Objects;
 
+/**
+ * Single Step Key Derivation Function (KDF) as described in NIST SP 800-56Cr1 chapter 4.
+ * <p>
+ * Formally described as:
+ *
+ * <blockquote>
+ * A family of one-step key-derivation functions is specified as follows:
+ * Function call: KDM( Z, OtherInput ).
+ * </blockquote>
+ * <p>
+ * Options for the Auxiliary Function H:
+ * <ul>
+ * <li>H(x) = hash(x), where hash is an approved hash function meeting
+ * the selection requirements specified in Section 7, and the input, x, is a bit string.</li>
+ * <li>H(x) = HMAC-hash(salt, x), where HMAC-hash is an implementation of the
+ * HMAC algorithm (as defined in [FIPS 198]) employing an approved hash function,
+ * hash, that meets the selection requirements specified in Section 7.
+ * An implementation-dependent byte string, salt, whose (non-null) value may
+ * be optionally provided in OtherInput, serves as the HMAC key, and x (the
+ * input to H) is a bit string that serves as the HMAC “message” – as specified
+ * in [FIPS 198]. </li>
+ * <li>H(x) = KMAC#(salt, x, H_outputBits, S), where KMAC# is a particular
+ * implementation of either KMAC128 or KMAC256 (as defined in [SP 800-185])
+ * that meets the selection requirements specified in Section 7. An
+ * implementation-dependent byte string, salt, whose (non-null) value may be
+ * optionally provided in OtherInput, serves as the KMAC# key, and x (the input
+ * to H) is a bit string that serves as the KMAC# “message” – as specified in [SP800-185].
+ * The parameter H_outputBits determines the bit length chosen for the output of the
+ * KMAC variant employed. The “customization string” S shall be the byte string
+ * 01001011 || 01000100 || 01000110, which represents the
+ * sequence of characters “K”, “D”, and “F” in 8-bit ASCII. (This three-byte
+ * string is denoted by “KDF” in this document.)</li>
+ * </ul>
+ * <p>
+ * <p>
+ * see https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf
+ */
 @SuppressWarnings("WeakerAccess")
 public final class SingleStepKdf {
 
@@ -144,11 +181,42 @@ public final class SingleStepKdf {
 
         ByteBuffer buffer = ByteBuffer.allocate(outLengthBytes);
 
+        /*
+        1. If L > 0, then set reps = [L / H_outputBits]
+           otherwise, output an error indicator and exit
+           this process without performing the remaining
+           actions (i.e., omitting steps 2 through 8).
+        2. If reps > (2^32 −1), then output an error indicator
+           and exit this process without performing the remaining
+           actions (i.e., omitting steps 3 through 8).
+        3. Initialize a big-endian 4-byte unsigned integer
+           counter as 0x00000000, corresponding to a 32-bit
+           binary representation of the number zero.
+        4. If counter || Z || FixedInfo is more tha
+           max_H_inputBits bits long, then output an
+           error indicator and exit this process without
+           performing any of the remaining actions (i.e.,
+           omitting steps 5 through 8).
+        5. Initialize Result(0) as an empty bit string
+           (i.e., the null string).
+        6. For i = 1 to reps, do the following:
+           6.1 Increment counter by 1.
+           6.2 Compute K(i) = H(counter || Z || FixedInfo).
+           6.3 Set Result(i) = Result(i – 1) ||K(i).
+        7. Set DerivedKeyingMaterial equal to the leftmost L
+           bits of Result(reps).
+        8. Output DerivedKeyingMaterial.
+        */
+
         int reps = (int) Math.ceil((float) outLengthBytes / (float) hashLengthBytes);
 
         do {
-            buffer.put(
-                    createHashRound(sharedSecretZ, fixedInfo, counter, digest), 0,
+            digest.reset();
+            digest.update(Bytes.from(counter).array());
+            digest.update(sharedSecretZ);
+            digest.update(fixedInfo);
+
+            buffer.put(digest.calculate(), 0,
                     reps == counter ? outLengthBytes - outputLenSum : hashLengthBytes);
             outputLenSum += hashLengthBytes;
         } while (counter++ < reps);
@@ -160,13 +228,5 @@ public final class SingleStepKdf {
         if (outLengthByte == 0) {
             throw new IllegalArgumentException("outLength must be greater 0");
         }
-    }
-
-    private byte[] createHashRound(byte[] sharedSecretZ, byte[] fixedInfo, int counter, HFunction digest) {
-        digest.update(Bytes.from(counter).array());
-        digest.update(sharedSecretZ);
-        digest.update(fixedInfo);
-
-        return digest.calculate();
     }
 }

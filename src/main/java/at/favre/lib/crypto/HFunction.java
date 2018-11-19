@@ -79,6 +79,11 @@ public interface HFunction {
     byte[] calculate();
 
     /**
+     * Resets the function for further use.
+     */
+    void reset();
+
+    /**
      * Hash implementation of the H function.
      */
     final class MessageDigestHFunction implements HFunction {
@@ -111,6 +116,11 @@ public interface HFunction {
         @Override
         public byte[] calculate() {
             return digest.digest();
+        }
+
+        @Override
+        public void reset() {
+            digest.reset();
         }
     }
 
@@ -168,6 +178,11 @@ public interface HFunction {
         @Override
         public byte[] calculate() {
             return mac.doFinal();
+        }
+
+        @Override
+        public void reset() {
+            mac.reset();
         }
     }
 }
