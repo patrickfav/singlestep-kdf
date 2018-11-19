@@ -61,4 +61,13 @@ public class HFunctionTest {
         digest.reset();
     }
 
+    @Test(expected = UnsupportedOperationException.class)
+    public void testMessageDigestNotSupportInit() throws NoSuchAlgorithmException {
+        new HFunction.MessageDigestHFunction(MessageDigest.getInstance("SHA-256")).init(new byte[32]);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMacInvalidKey() throws NoSuchAlgorithmException {
+        new HFunction.MacHFunction(Mac.getInstance("HmacSha256")).init(new byte[0]);
+    }
 }
