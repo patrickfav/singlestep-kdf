@@ -1,11 +1,11 @@
-# Concat KDF
+# Single Step KDF (NIST SP 800-56A)
 
 WIP
 
-[![Download](https://api.bintray.com/packages/patrickfav/maven/concat-kdf/images/download.svg)](https://bintray.com/patrickfav/maven/concat-kdf/_latestVersion)
-[![Build Status](https://travis-ci.org/patrickfav/concat-kdf.svg?branch=master)](https://travis-ci.org/patrickfav/concat-kdf)
-[![Javadocs](https://www.javadoc.io/badge/at.favre.lib/concat-kdf.svg)](https://www.javadoc.io/doc/at.favre.lib/concat-kdf)
-[![Coverage Status](https://coveralls.io/repos/github/patrickfav/concat-kdf/badge.svg?branch=master)](https://coveralls.io/github/patrickfav/concat-kdf?branch=master)
+[![Download](https://api.bintray.com/packages/patrickfav/maven/singlestep-kdf/images/download.svg)](https://bintray.com/patrickfav/maven/singlestep-kdf/_latestVersion)
+[![Build Status](https://travis-ci.org/patrickfav/singlestep-kdf.svg?branch=master)](https://travis-ci.org/patrickfav/singlestep-kdf)
+[![Javadocs](https://www.javadoc.io/badge/at.favre.lib/singlestep-kdf.svg)](https://www.javadoc.io/doc/at.favre.lib/singlestep-kdf)
+[![Coverage Status](https://coveralls.io/repos/github/patrickfav/singlestep-kdf/badge.svg?branch=master)](https://coveralls.io/github/patrickfav/singlestep-kdf?branch=master)
 
 This is supposed to be a standalone, lightweight, simple to use, fully tested and stable implementation in Java. The code is compiled with [Java 7](https://en.wikipedia.org/wiki/Java_version_history#Java_SE_7) to be compatible with most [_Android_](https://www.android.com/) versions as well as normal Java applications.
 
@@ -15,7 +15,7 @@ Add dependency to your `pom.xml`:
 
     <dependency>
         <groupId>at.favre.lib</groupId>
-        <artifactId>concat-kdf</artifactId>
+        <artifactId>singlestep-kdf</artifactId>
         <version>{latest-version}</version>
     </dependency>
 
@@ -48,7 +48,7 @@ Add dependency to your `pom.xml`:
 
     <dependency>
         <groupId>at.favre.lib</groupId>
-        <artifactId>concat-kdf</artifactId>
+        <artifactId>singlestep-kdf</artifactId>
         <version>{latest-version}</version>
     </dependency>
 
@@ -56,11 +56,11 @@ Add dependency to your `pom.xml`:
 
 Add to your `build.gradle` module dependencies:
 
-    compile group: 'at.favre.lib', name: 'concat-kdf', version: '{latest-version}'
+    compile group: 'at.favre.lib', name: 'singlestep-kdf', version: '{latest-version}'
 
 ### Local Jar
 
-[Grab jar from latest release.](https://github.com/patrickfav/concat-kdf/releases/latest)
+[Grab jar from latest release.](https://github.com/patrickfav/singlestep-kdf/releases/latest)
 
 
 ## Description

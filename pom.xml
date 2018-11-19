@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>at.favre.lib</groupId>
-    <artifactId>concact-kdf</artifactId>
+    <artifactId>singlestep-kdf</artifactId>
     <version>0.1.0</version>
     <packaging>jar</packaging>
 
-    <name>Concat-KDF (NIST SP 800-56A)</name>
+    <name>Single Step KDF (NIST SP 800-56A)</name>
     <description>Single Step Key Derivation Function as defined in NIST SP 800-56A, Sect 5.8.1 as well as 800-56C
     </description>
-    <url>https://github.com/patrickfav/concat-kdf</url>
+    <url>https://github.com/patrickfav/singlestep-kdf</url>
     <inceptionYear>2018</inceptionYear>
 
     <prerequisites>
@@ -195,8 +195,8 @@
     <distributionManagement>
         <repository>
             <id>bintray-patrickfav</id>
-            <name>patrickfav-concat-kdf</name>
-            <url>https://api.bintray.com/maven/patrickfav/maven/concat-kdf/;publish=1</url>
+            <name>patrickfav-singlestep-kdf</name>
+            <url>https://api.bintray.com/maven/patrickfav/maven/singlestep-kdf/;publish=1</url>
         </repository>
     </distributionManagement>
 
@@ -209,19 +209,19 @@
     </licenses>
 
     <scm>
-        <connection>https://github.com/patrickfav/concat-kdf.git</connection>
-        <developerConnection>https://github.com/patrickfav/concat-kdf.git</developerConnection>
+        <connection>https://github.com/patrickfav/singlestep-kdf.git</connection>
+        <developerConnection>https://github.com/patrickfav/singlestep-kdf.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/patrickfav/concat-kdf</url>
+        <url>https://github.com/patrickfav/singlestep-kdf</url>
     </scm>
 
     <issueManagement>
         <system>Github</system>
-        <url>https://github.com/patrickfav/concat-kdf/issues</url>
+        <url>https://github.com/patrickfav/singlestep-kdf/issues</url>
     </issueManagement>
 
     <ciManagement>
         <system>Travis</system>
-        <url>https://travis-ci.org/patrickfav/concat-kdf</url>
+        <url>https://travis-ci.org/patrickfav/singlestep-kdf</url>
     </ciManagement>
 </project>

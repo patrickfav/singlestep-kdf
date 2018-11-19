@@ -6,43 +6,43 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 @SuppressWarnings("WeakerAccess")
-public final class ConcatKdf {
+public final class SingleStepKdf {
 
     /**
      * Cache instances
      */
-    private static ConcatKdf concatKdfSha256;
-    private static ConcatKdf concatKdfHmacSha256;
+    private static SingleStepKdf singleStepKdfSha256;
+    private static SingleStepKdf singleStepKdfHmacSha256;
 
-    public static ConcatKdf fromSha256() {
-        if (concatKdfSha256 == null) {
-            concatKdfSha256 = from(HFunctionFactory.Default.sha256());
+    public static SingleStepKdf fromSha256() {
+        if (singleStepKdfSha256 == null) {
+            singleStepKdfSha256 = from(HFunctionFactory.Default.sha256());
         }
-        return concatKdfSha256;
+        return singleStepKdfSha256;
     }
 
-    public static ConcatKdf fromSha512() {
+    public static SingleStepKdf fromSha512() {
         return from(HFunctionFactory.Default.sha512());
     }
 
-    public static ConcatKdf fromHmacSha256() {
-        if (concatKdfHmacSha256 == null) {
-            concatKdfHmacSha256 = from(HFunctionFactory.Default.hmacSha256());
+    public static SingleStepKdf fromHmacSha256() {
+        if (singleStepKdfHmacSha256 == null) {
+            singleStepKdfHmacSha256 = from(HFunctionFactory.Default.hmacSha256());
         }
-        return concatKdfHmacSha256;
+        return singleStepKdfHmacSha256;
     }
 
-    public static ConcatKdf fromHmacSha512() {
+    public static SingleStepKdf fromHmacSha512() {
         return from(HFunctionFactory.Default.hmacSha512());
     }
 
-    public static ConcatKdf from(HFunctionFactory factory) {
-        return new ConcatKdf(factory);
+    public static SingleStepKdf from(HFunctionFactory factory) {
+        return new SingleStepKdf(factory);
     }
 
     private final HFunctionFactory digestFactory;
 
-    private ConcatKdf(HFunctionFactory digestFactory) {
+    private SingleStepKdf(HFunctionFactory digestFactory) {
         this.digestFactory = Objects.requireNonNull(digestFactory, "digestFactory");
     }
 
