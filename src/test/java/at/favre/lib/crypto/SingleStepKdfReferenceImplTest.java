@@ -27,7 +27,7 @@ public class SingleStepKdfReferenceImplTest {
 
     private void checkReferenceImpl1(SingleStepKdfReference1 ref1, byte[] z, byte[] otherInfo) throws NoSuchAlgorithmException {
         byte[] outARef1 = ref1.concatKDF("SHA-256", z, 32, otherInfo);
-        byte[] outARef2 = SingleStepKdf.fromSha256().derive(z, otherInfo, 32);
+        byte[] outARef2 = SingleStepKdf.fromSha256().derive(z, 32, otherInfo);
 
         assertEquals(Bytes.wrap(outARef1).encodeHex(), Bytes.wrap(outARef2).encodeHex());
     }
@@ -48,12 +48,12 @@ public class SingleStepKdfReferenceImplTest {
 
     private void checkReferenceImpl2(SingleStepKdfReference2 ref2, byte[] z, byte[] otherInfo) {
         byte[] outARef1 = ref2.concatKDF(z, 32 * 8, otherInfo);
-        byte[] outARef2 = SingleStepKdf.fromSha256().derive(z, otherInfo, 32);
+        byte[] outARef2 = SingleStepKdf.fromSha256().derive(z, 32, otherInfo);
 
         assertEquals(Bytes.wrap(outARef1).encodeHex(), Bytes.wrap(outARef2).encodeHex());
 
         byte[] outBRef1 = ref2.concatKDF(z, 16 * 8, otherInfo);
-        byte[] outBRef2 = SingleStepKdf.fromSha256().derive(z, otherInfo, 16);
+        byte[] outBRef2 = SingleStepKdf.fromSha256().derive(z, 16, otherInfo);
 
         assertEquals(Bytes.wrap(outBRef1).encodeHex(), Bytes.wrap(outBRef2).encodeHex());
     }

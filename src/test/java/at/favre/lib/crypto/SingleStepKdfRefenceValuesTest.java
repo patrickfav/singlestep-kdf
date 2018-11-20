@@ -125,7 +125,7 @@ public class SingleStepKdfRefenceValuesTest {
     }
 
     private void test(SingleStepKdf kdf, byte[] Z, byte[] salt, byte[] otherInfo, int outL, String refHex) {
-        byte[] out = kdf.derive(Z, salt, otherInfo, outL);
+        byte[] out = kdf.derive(Z, outL, salt, otherInfo);
         assertEquals(Bytes.wrap(out).encodeHex(), refHex);
     }
 }

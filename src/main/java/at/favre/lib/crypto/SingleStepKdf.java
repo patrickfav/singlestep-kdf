@@ -124,7 +124,7 @@ public final class SingleStepKdf {
      */
     public byte[] derive(byte[] sharedSecretZ,
                          int outLengthBytes) {
-        return derive(sharedSecretZ, null, new byte[0], outLengthBytes);
+        return derive(sharedSecretZ, outLengthBytes, null, new byte[0]);
     }
 
     /**
@@ -134,6 +134,9 @@ public final class SingleStepKdf {
      * which use a {@link java.security.MessageDigest} as underlying H function.
      *
      * @param sharedSecretZ  called 'Z' in the spec: a byte string that represents the shared secret
+     * @param outLengthBytes called 'L' in the spec: a positive integer that indicates the length
+     *                       (in bytes) of the secret keying material to be derived (ie. how long the output
+     *                       will be in bytes)
      * @param fixedInfo      a bit string of context-specific data that is appropriate for the relying
      *                       key-establishment scheme. FixedInfo may, for example, include appropriately
      *                       formatted representations of the values of salt and/or L. The inclusion of
@@ -141,15 +144,11 @@ public final class SingleStepKdf {
      *                       each block of derived keying material is affected by all of the information
      *                       conveyed in OtherInput. See [SP 800-56A] and [SP 800-56B] for more detailed
      *                       recommendations concerning the format and content of FixedInfo.
-     * @param outLengthBytes called 'L' in the spec: a positive integer that indicates the length
-     *                       (in bytes) of the secret keying material to be derived (ie. how long the output
-     *                       will be in bytes)
      * @return derived keying material (to use as secret key)
      */
     public byte[] derive(byte[] sharedSecretZ,
-                         byte[] fixedInfo,
-                         int outLengthBytes) {
-        return derive(sharedSecretZ, null, fixedInfo, outLengthBytes);
+                         int outLengthBytes, byte[] fixedInfo) {
+        return derive(sharedSecretZ, outLengthBytes, null, fixedInfo);
     }
 
 
@@ -159,6 +158,9 @@ public final class SingleStepKdf {
      * Derives a new key from given parameters.
      *
      * @param sharedSecretZ  called 'Z' in the spec: a byte string that represents the shared secret
+     * @param outLengthBytes called 'L' in the spec: a positive integer that indicates the length
+     *                       (in bytes) of the secret keying material to be derived (ie. how long the output
+     *                       will be in bytes)
      * @param salt           (secret or non-secret) byte string that should be provided when HMAC h
      *                       function is used, if null is passed the default_salt is used
      * @param fixedInfo      a bit string of context-specific data that is appropriate for the relying
@@ -168,15 +170,11 @@ public final class SingleStepKdf {
      *                       each block of derived keying material is affected by all of the information
      *                       conveyed in OtherInput. See [SP 800-56A] and [SP 800-56B] for more detailed
      *                       recommendations concerning the format and content of FixedInfo.
-     * @param outLengthBytes called 'L' in the spec: a positive integer that indicates the length
-     *                       (in bytes) of the secret keying material to be derived (ie. how long the output
-     *                       will be in bytes)
      * @return derived keying material (to use as secret key)
      */
     public byte[] derive(byte[] sharedSecretZ,
-                         byte[] salt,
-                         byte[] fixedInfo,
-                         int outLengthBytes) {
+                         int outLengthBytes, byte[] salt,
+                         byte[] fixedInfo) {
 
         Objects.requireNonNull(sharedSecretZ, "sharedSecretZ");
         Objects.requireNonNull(fixedInfo, "fixedInfo");

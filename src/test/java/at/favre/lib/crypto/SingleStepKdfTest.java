@@ -22,7 +22,7 @@ public class SingleStepKdfTest {
     public void testDoesNotSupportSalt() {
         SingleStepKdf kdf = SingleStepKdf.fromSha256();
         try {
-            kdf.derive(Bytes.random(16).array(), Bytes.random(16).array(), Bytes.random(16).array(), 16);
+            kdf.derive(Bytes.random(16).array(), 16, Bytes.random(16).array(), Bytes.random(16).array());
             fail();
         } catch (IllegalArgumentException ignored) {
 
