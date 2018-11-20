@@ -1,6 +1,6 @@
 # Single Step KDF (NIST SP 800-56A)
 
-WIP
+This is an implementation of the single-step key derivation function as described in [NIST SP 800-56A revision 1, chapter 4](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf). It is an unopinionated approach towards the subject, allowing all 3 options (message digest, hmac and kmac) as H function and leaving open the exact format of the `fixedInfo` parameter.
 
 [![Download](https://api.bintray.com/packages/patrickfav/maven/singlestep-kdf/images/download.svg)](https://bintray.com/patrickfav/maven/singlestep-kdf/_latestVersion)
 [![Build Status](https://travis-ci.org/patrickfav/singlestep-kdf.svg?branch=master)](https://travis-ci.org/patrickfav/singlestep-kdf)
@@ -22,17 +22,27 @@ Add dependency to your `pom.xml`:
 A very simple example:
 
 ```java
-TBD
+// a shared secret provided by your protocol
+byte[] sharedSecret = ...
+// a salt; if you don't have access to a salt use SingleStepKdf.fromSha256() or similar
+byte[] salt = ...
+// other info to bind the key to the context, see the NIST spec for more detail
+byte[] otherInfo = "macKey".getBytes();
+byte[] keyMaterial = SingleStepKdf.fromHmacSha256().derive(sharedSecret, 32, salt, otherInfo);
+SecretKey secretKey = new SecretKeySpec(keyMaterial, "AES");
 ```
 
 ### Full Example
 
+### Using with Message Digest (Option 1)
 
 ```java
 TBD
 ```
+### Using with HMAC (Option 2)
 
-### Using custom HMAC implementation
+
+### Using custom Message Digest / HMAC implementation
 
 ```java
 TBD
