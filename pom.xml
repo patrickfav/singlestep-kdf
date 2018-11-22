@@ -9,8 +9,8 @@
     <version>0.1.0</version>
     <packaging>jar</packaging>
 
-    <name>Single Step KDF (NIST SP 800-56A)</name>
-    <description>Single Step Key Derivation Function as defined in NIST SP 800-56A, Sect 5.8.1 as well as 800-56C
+    <name>Single Step KDF (NIST SP 800-56C)</name>
+    <description>Single Step Key Derivation Function as defined in NIST SP 800-56C, Sect 5.8.1 as well as 800-56C
     </description>
     <url>https://github.com/patrickfav/singlestep-kdf</url>
     <inceptionYear>2018</inceptionYear>

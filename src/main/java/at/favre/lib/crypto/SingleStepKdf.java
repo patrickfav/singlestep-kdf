@@ -171,6 +171,7 @@ public final class SingleStepKdf {
      *                       conveyed in OtherInput. See [SP 800-56A] and [SP 800-56B] for more detailed
      *                       recommendations concerning the format and content of FixedInfo.
      * @return derived keying material (to use as secret key)
+     * @throws IllegalArgumentException if salt is used with message digest as H function
      */
     public byte[] derive(byte[] sharedSecretZ,
                          int outLengthBytes, byte[] salt,
@@ -190,7 +191,7 @@ public final class SingleStepKdf {
             digest.init(salt);
         } else if (salt != null) {
             // fail fast so caller is not under the impression a salt is used if it is just discarded
-            throw new IllegalArgumentException("used h-function does not require a salt and none should be provided");
+            throw new IllegalArgumentException("Used h-function does not require a salt and none should be provided. You may include it in the fixedInfo parameter.");
         }
 
         ByteBuffer buffer = ByteBuffer.allocate(outLengthBytes);
