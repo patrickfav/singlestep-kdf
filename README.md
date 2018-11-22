@@ -6,6 +6,7 @@ This is an implementation of the single-step key derivation function as describe
 [![Build Status](https://travis-ci.org/patrickfav/singlestep-kdf.svg?branch=master)](https://travis-ci.org/patrickfav/singlestep-kdf)
 [![Javadocs](https://www.javadoc.io/badge/at.favre.lib/singlestep-kdf.svg)](https://www.javadoc.io/doc/at.favre.lib/singlestep-kdf)
 [![Coverage Status](https://coveralls.io/repos/github/patrickfav/singlestep-kdf/badge.svg?branch=master)](https://coveralls.io/github/patrickfav/singlestep-kdf?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/bbc7ebd960a9f0bb7baa/maintainability)](https://codeclimate.com/github/patrickfav/singlestep-kdf/maintainability)
 
 This is supposed to be a standalone, lightweight, simple to use, fully tested and stable implementation in Java. The code is compiled with [Java 7](https://en.wikipedia.org/wiki/Java_version_history#Java_SE_7) to be compatible with most [_Android_](https://www.android.com/) versions as well as normal Java applications.
 
