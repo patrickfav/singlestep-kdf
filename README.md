@@ -72,6 +72,12 @@ SingleStepKdf sha1Kdf = SingleStepKdf.from(new HFunctionFactory.Default.DigestFa
 SingleStepKdf hmacSha1Kdf = SingleStepKdf.from(new HFunctionFactory.Default.DigestFactory("HmacSHA1"));
 ```
 
+### How to use the Fixed-Info Parameter 
+
+A bit string of context-specific data that is appropriate for the relying key-establishment scheme. As its name suggests, the value of `FixedInfo` does not change during the execution of the process.
+
+`FixedInfo` may, for example, include appropriately formatted representations of the values of salt and/or the output length. The inclusion of additional copies of the values of salt and the output length in `FixedInfo` would ensure that each block of derived keying material is affected by all of the information conveyed in `OtherInput`. See [SP 800-56A](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf) and [SP 800-56B](https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-56br1.pdf) for more detailed recommendations concerning the format and content of `FixedInfo` (also known as OtherInfo in earlier versions of those documents).
+
 ## Download
 
 The artifacts are deployed to [jcenter](https://bintray.com/bintray/jcenter) and [Maven Central](https://search.maven.org/).
