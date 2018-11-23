@@ -167,16 +167,17 @@ If you want to skip jar signing just change the skip configuration in the
 
 ### Build with Maven
 
-Use maven (3.1+) to create a jar including all dependencies
+Use maven wrapper to create a jar including all dependencies
 
-    mvn clean install
+    ./mvnw clean install
 
 ## Tech Stack
 
 * Java 7
-* Maven
+* Maven (Wrapper)
+* Errorprone, Checkstyle
 
-## Relevant Libraries
+## Related Libraries
 
 * [BCyrpt Password Hash Function (Java)](https://github.com/patrickfav/bcrypt)
 * [HKDF [RFC5869] Two-Step KDF (Java)](https://tools.ietf.org/html/rfc5869)
