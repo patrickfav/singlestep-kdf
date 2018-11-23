@@ -8,7 +8,7 @@ This is an implementation of the single-step key derivation function as describe
 [![Coverage Status](https://coveralls.io/repos/github/patrickfav/singlestep-kdf/badge.svg?branch=master)](https://coveralls.io/github/patrickfav/singlestep-kdf?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/bbc7ebd960a9f0bb7baa/maintainability)](https://codeclimate.com/github/patrickfav/singlestep-kdf/maintainability)
 
-This is supposed to be a standalone, lightweight, simple to use, fully tested and stable implementation in Java. The code is compiled with [Java 7](https://en.wikipedia.org/wiki/Java_version_history#Java_SE_7) to be compatible with most [_Android_](https://www.android.com/) versions as well as normal Java applications.
+This is a standalone, lightweight, simple to use, fully tested and stable implementation in Java. The code is compiled with [Java 7](https://en.wikipedia.org/wiki/Java_version_history#Java_SE_7) to be compatible with most [_Android_](https://www.android.com/) versions as well as normal Java applications.
 
 ## Quickstart
 
@@ -25,7 +25,7 @@ A very simple example:
 ```java
 // a shared secret provided by your protocol
 byte[] sharedSecret = ...
-// a salt; if you don't have access to a salt use SingleStepKdf.fromSha256() or similar
+// a salt; if you don't have access to a salt, use salt-less SingleStepKdf.fromSha256() or similar
 byte[] salt = ...
 // other info to bind the key to the context, see the NIST spec for more detail
 byte[] otherInfo = "macKey".getBytes();
@@ -50,8 +50,9 @@ byte[] fixedInfo = "macKey".getBytes();
 byte[] keyMaterial = SingleStepKdf.fromSha256().derive(sharedSecret, 32, fixedInfo);
 SecretKey secretKey = new SecretKeySpec(keyMaterial, "AES");
 ```
+
 ### Using with HMAC (Option 2)
-Using Option 2, ie. `H(x) = HMAC-hash(salt, x)`, where HMAC-hash is an implementation of the HMAC algorithm (as defined in FIPS 198) employing an approved hash function. A salt which serves as the HMAC key, and x (the input to H) is a bit string that serves as the HMAC "message". This implemention can use any `Mac` implementation. If no salt is provided, an empty array is internally initialized.
+Using Option 2, ie. `H(x) = HMAC-hash(salt, x)`, where HMAC-hash is an implementation of the HMAC algorithm (as defined in FIPS 198) employing an approved hash function. A salt which serves as the HMAC key, and x (the input to H) is a bit string that serves as the HMAC "message". This library can use any `Mac` implementation. If no salt is provided, an empty array is internally initialized.
 
 ```java
 byte[] keyMaterial = SingleStepKdf.fromHmacSha256().derive(sharedSecret, 32, salt, fixedInfo);
@@ -60,16 +61,16 @@ byte[] keyMaterial = SingleStepKdf.fromHmacSha256().derive(sharedSecret, 32, sal
 
 ### Using with KMAC (Option 3)
 
-KMAC is a MAC using [SHA-3/Keccak](https://en.wikipedia.org/wiki/SHA-3). Unlike SHA-1 and SHA-2, [Keccak](http://keccak.noekeon.org/) does not have the [length-extension weakness](https://en.wikipedia.org/wiki/Length_extension_attack), hence does not need the HMAC nested construction. Instead, MAC computation can be performed by simply prepending the message with the key. Java has a SHA-3 implementation [since version 9](https://openjdk.java.net/jeps/287). This implementation supports Java 7, so no default implementation is present for KMAC. It is probably quite easy to implement it yourself using either the `HFunctionFactory.MacFactory` or implementing yourself with `HFunction`.
+KMAC is a MAC using [SHA-3/Keccak](https://en.wikipedia.org/wiki/SHA-3). Unlike SHA-1 and SHA-2, [Keccak](http://keccak.noekeon.org/) does not have the [length-extension weakness](https://en.wikipedia.org/wiki/Length_extension_attack), hence does not need the HMAC nested construction. Instead, MAC computation can be performed by simply prepending the message with the key. Java has a SHA-3 implementation [since version 9](https://openjdk.java.net/jeps/287). This library is designed to support Java 7, so no default implementation is present for KMAC. It is probably quite easy to implement it yourself using either the `HFunctionFactory.MacFactory` or implementing yourself with `HFunction`.
 
 ### Using custom Message Digest / HMAC implementation
 
-Default implementation exists for the h-function which can be used for any `MessageDigest` or `Mac`. It is also possible to implement it from scratch by using the `HFunction` interface. A factory is used to generate instances. Thes can be used like this:
+Default implementation exists for the h-function which can be used for any `MessageDigest` or `Mac`. It is also possible to implement it from scratch by using the `HFunction` interface. A factory is used to generate instances. This can be used like this:
 
 ```java
 // create instance with sha1 as backing hash function
 SingleStepKdf sha1Kdf = SingleStepKdf.from(new HFunctionFactory.Default.DigestFactory("SHA-1"));
-// creat instance with HMAC-SHA1 as backing h function
+// create instance with HMAC-SHA1 as backing h function
 SingleStepKdf hmacSha1Kdf = SingleStepKdf.from(new HFunctionFactory.Default.DigestFactory("HmacSHA1"));
 ```
 
@@ -106,7 +107,7 @@ Add to your `build.gradle` module dependencies:
 
 ## Description
 
-The following is summarized and shorted version of [NIST 800-56C Rev1](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf):
+The following is summarized and shortened version of [NIST 800-56C Rev1](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf) chapter about the single-step KDF:
 
 Single Step KDF specifies a family of approved key-derivation functions (KDFs) that are executed in a single step; The input to each specified KDF includes the shared secret generated during the execution of a key-establishment scheme specified in [SP 800-56A](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf) or [SP 800-56B](https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-56br1.pdf), an indication of the desired bit length of the keying material to be output, and, perhaps, other information (as determined by the particular implementation of the key-establishment scheme and/or key-derivation function).
 
@@ -125,6 +126,10 @@ This property is consistent with the use of the MAC algorithm as the specificati
 ### Two Step Key Derivation Function
 
 NIST 800-56C Rev1 also describes a two step kdf with a extract and expand phase. The most prominent implementation of it is [HKDF (RFC5869)](https://tools.ietf.org/html/rfc5869). A java implementation of it can be [found here](https://github.com/patrickfav/hkdf).
+
+### Test Vectors
+
+Unfortunately it seems that the NIST did not provide any official test vectors ([see this post](https://crypto.stackexchange.com/questions/64140/where-can-i-find-official-test-vectors-for-nist-sp-800-56c-r1-single-step-kdf)). This implementation ist tested against the [code snippets posted here](https://stackoverflow.com/questions/10879658/existing-implementations-for-nist-sp-800-56a-concatenation-key-derivation-functi/10971402#10971402). Additionally I released my own test vectors in the wiki so you could test against another possible already existing implementation.
 
 ## Digital Signatures
 
