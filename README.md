@@ -180,7 +180,7 @@ Use maven wrapper to create a jar including all dependencies
 ## Related Libraries
 
 * [BCyrpt Password Hash Function (Java)](https://github.com/patrickfav/bcrypt)
-* [HKDF [RFC5869] Two-Step KDF (Java)](https://tools.ietf.org/html/rfc5869)
+* [HKDF [RFC5869] Two-Step KDF (Java)](https://github.com/patrickfav/hkdf)
 
 # License
 
