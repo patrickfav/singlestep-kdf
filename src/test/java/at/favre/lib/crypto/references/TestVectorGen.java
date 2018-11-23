@@ -19,10 +19,10 @@ public class TestVectorGen {
         printMessageDigestTestCases(SingleStepKdf.fromSha512());
 
         System.out.println("\n## HMAC-SHA256");
-        printMessageDigestTestCases(SingleStepKdf.fromHmacSha256());
+        printHmacTestCases(SingleStepKdf.fromHmacSha256());
 
         System.out.println("\n## HMAC-SHA512");
-        printMessageDigestTestCases(SingleStepKdf.fromHmacSha512());
+        printHmacTestCases(SingleStepKdf.fromHmacSha512());
     }
 
     private void printMessageDigestTestCases(SingleStepKdf mdKdf) {
@@ -100,6 +100,11 @@ public class TestVectorGen {
         salt = Bytes.random(16).array();
         for (int i = 8; i < 72; i += 8) {
             printTestCase(mdKdf, Bytes.random(16).array(), i, salt, Bytes.empty().array());
+        }
+
+        fixedInfo = Bytes.random(12).array();
+        for (int i = 8; i < 72; i += 8) {
+            printTestCase(mdKdf, Bytes.random(16).array(), i, null, fixedInfo);
         }
     }
 
