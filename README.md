@@ -33,7 +33,7 @@ byte[] keyMaterial = SingleStepKdf.fromHmacSha256().derive(sharedSecret, 32, sal
 SecretKey secretKey = new SecretKeySpec(keyMaterial, "AES");
 ```
 
-### Full Example
+## Full Example
 
 NIST 800-56C specifies the KDF with an H-function which may be a [hash](https://en.wikipedia.org/wiki/Cryptographic_hash_function), [HMAC](https://en.wikipedia.org/wiki/HMAC) or [KMAC](https://keccak.team/index.html).
 
