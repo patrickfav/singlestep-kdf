@@ -1,5 +1,10 @@
 # Releases
 
+## v0.2.0
+
+* add various unit tests
+* update maven plugins
+
 ## v0.1.0
 
 initial version
