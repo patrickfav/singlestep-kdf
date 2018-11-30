@@ -191,7 +191,8 @@ public final class SingleStepKdf {
             digest.init(salt);
         } else if (salt != null) {
             // fail fast so caller is not under the impression a salt is used if it is just discarded
-            throw new IllegalArgumentException("Used h-function does not require a salt and none should be provided. You may include it in the fixedInfo parameter.");
+            throw new IllegalArgumentException("Used h-function does not require a salt and none should be provided. " +
+                    "You may include it in the fixedInfo parameter or use a salt compatible h-function like hmac (e.g. `SingleStepKdf.fromHmac*()`).");
         }
 
         ByteBuffer buffer = ByteBuffer.allocate(outLengthBytes);
