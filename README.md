@@ -131,9 +131,16 @@ NIST 800-56C Rev1 also describes a two step kdf with a extract and expand phase.
 
 Unfortunately it seems that the NIST did not provide any official test vectors ([see this post](https://crypto.stackexchange.com/questions/64140/where-can-i-find-official-test-vectors-for-nist-sp-800-56c-r1-single-step-kdf)). This implementation ist tested against the [code snippets posted here](https://stackoverflow.com/questions/10879658/existing-implementations-for-nist-sp-800-56a-concatenation-key-derivation-functi/10971402#10971402). Additionally I released my [own test vectors in the wiki](https://github.com/patrickfav/singlestep-kdf/wiki/NIST-SP-800-56C-Rev1:-Non-Official-Test-Vectors) so you could test against another possible already existing implementation.
 
-## Digital Signatures
+## Security Relevant Information
 
-### Signed Jar
+### OWASP Dependency Check
+
+This project uses the [OWASP Dependency-Check](https://www.owasp.org/index.php/OWASP_Dependency_Check) which is a utility that identifies project dependencies and checks if there are any known, publicly disclosed, vulnerabilities against a [NIST database](https://nvd.nist.gov/vuln/data-feeds).
+The build will fail if any issue is found.
+
+### Digital Signatures
+
+#### Signed Jar
 
 The provided JARs in the Github release page are signed with my private key:
 
@@ -144,7 +151,7 @@ The provided JARs in the Github release page are signed with my private key:
 
 Use the jarsigner tool (found in your `$JAVA_HOME/bin` folder) folder to verify.
 
-### Signed Commits
+#### Signed Commits
 
 All tags and commits by me are signed with git with my private key:
 
