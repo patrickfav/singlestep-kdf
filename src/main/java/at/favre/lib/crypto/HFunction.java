@@ -37,7 +37,7 @@ import java.util.Objects;
  * An example on how to use a H-function
  * <pre>
  *     final HFunction func = factory.createInstance();
- *     final int hashLength = func.getHFuncOutputBytes();
+ *     final int inputBlockLength = func.getHFuncInputBlockLengthBytes();
  *     byte[] out = new byte[hashLength];
  *     func.update(keyData);
  *     out = func.calculate()
@@ -64,6 +64,19 @@ public interface HFunction {
      * @return true if user must initialize with init()
      */
     boolean requireInit();
+
+    /**
+     * Formally: a positive integer that indicates the length of the input block size of
+     * the auxiliary function, H.
+     * <p>
+     * The spec describes the length in bits, but for practical reasons it will return bytes.
+     * <p>
+     * This is required to get the salt length of no salt is provided.
+     * See the definition in NIST SP 800-56C REV. 1, Table 2
+     *
+     * @return input block size length in byte (sha-256 is e.g. 64, sha-512: 128)
+     */
+    int getHFuncInputBlockLengthBytes();
 
     /**
      * Formally: a positive integer that indicates the length of the output of
@@ -120,6 +133,11 @@ public interface HFunction {
         }
 
         @Override
+        public int getHFuncInputBlockLengthBytes() {
+            return Util.getBlockLengthByte(digest.getAlgorithm());
+        }
+
+        @Override
         public int getHFuncOutputBytes() {
             return digest.getDigestLength();
         }
@@ -166,7 +184,7 @@ public interface HFunction {
              * block for the hash function, hash.
              */
             if (key == null) {
-                key = new byte[getHFuncOutputBytes()];
+                key = new byte[getHFuncInputBlockLengthBytes()];
             }
 
             try {
@@ -179,6 +197,11 @@ public interface HFunction {
         @Override
         public boolean requireInit() {
             return true;
+        }
+
+        @Override
+        public int getHFuncInputBlockLengthBytes() {
+            return Util.getBlockLengthByte(mac.getAlgorithm());
         }
 
         @Override
@@ -199,6 +222,33 @@ public interface HFunction {
         @Override
         public void reset() {
             mac.reset();
+        }
+    }
+
+    final class Util {
+        private Util() {
+        }
+
+        static int getBlockLengthByte(String algorithm) {
+            String name = Objects.requireNonNull(algorithm).toLowerCase().trim().replace("-", "");
+
+            if (name.startsWith("sha1") || name.startsWith("sha224") || name.startsWith("sha256")
+                    || name.startsWith("hmacsha1") || name.startsWith("hmacsha256")) {
+                return 64;
+            } else if (name.startsWith("sha512") || name.startsWith("sha384") || name.equals("sha256")
+                    || name.startsWith("hmacsha512")) {
+                return 128;
+            } else if (name.startsWith("sha3224")) {
+                return 144;
+            } else if (name.startsWith("sha3256")) {
+                return 136;
+            } else if (name.startsWith("sha3384")) {
+                return 104;
+            } else if (name.startsWith("sha3512")) {
+                return 72;
+            } else {
+                throw new IllegalStateException("unknown hash algorithm; cannot choose input block length: see NIST SP 800-56C REV. 1 Table 2.");
+            }
         }
     }
 }

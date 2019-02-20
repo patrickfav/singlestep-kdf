@@ -41,7 +41,7 @@ public class HFunctionFactoryTest {
         assertNotSame(function1, function2);
 
         if (function2.requireInit()) {
-            function2.init(Bytes.random(function2.getHFuncOutputBytes()).array());
+            function2.init(Bytes.random(function2.getHFuncInputBlockLengthBytes()).array());
         }
         function2.update(Bytes.random(4).array());
         function2.update(Bytes.random(12).array());
