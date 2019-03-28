@@ -1,4 +1,4 @@
-package at.favre.lib.crypto.references;
+package at.favre.lib.crypto.singlestepkdf.references;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

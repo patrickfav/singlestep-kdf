@@ -1,8 +1,9 @@
-package at.favre.lib.crypto;
+package at.favre.lib.crypto.singlestepkdf;
 
 import at.favre.lib.bytes.Bytes;
-import at.favre.lib.crypto.references.SingleStepKdfReference1;
-import at.favre.lib.crypto.references.SingleStepKdfReference2;
+import at.favre.lib.crypto.singlestepkdf.references.SingleStepKdfReference1;
+import at.favre.lib.crypto.singlestepkdf.references.SingleStepKdfReference2;
+import at.favre.lib.crypto.singlstepkdf.SingleStepKdf;
 import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;

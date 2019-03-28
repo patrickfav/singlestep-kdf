@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package at.favre.lib.crypto;
+package at.favre.lib.crypto.singlstepkdf;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

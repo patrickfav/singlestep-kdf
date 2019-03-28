@@ -1,6 +1,7 @@
-package at.favre.lib.crypto;
+package at.favre.lib.crypto.singlestepkdf;
 
 import at.favre.lib.bytes.Bytes;
+import at.favre.lib.crypto.singlstepkdf.HFunction;
 import org.junit.Test;
 
 import javax.crypto.Mac;

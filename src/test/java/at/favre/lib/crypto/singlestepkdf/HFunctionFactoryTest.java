@@ -1,6 +1,8 @@
-package at.favre.lib.crypto;
+package at.favre.lib.crypto.singlestepkdf;
 
 import at.favre.lib.bytes.Bytes;
+import at.favre.lib.crypto.singlstepkdf.HFunction;
+import at.favre.lib.crypto.singlstepkdf.HFunctionFactory;
 import org.junit.Test;
 
 import java.security.Security;

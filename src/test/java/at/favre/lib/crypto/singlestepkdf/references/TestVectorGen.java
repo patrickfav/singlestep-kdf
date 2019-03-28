@@ -1,8 +1,8 @@
-package at.favre.lib.crypto.references;
+package at.favre.lib.crypto.singlestepkdf.references;
 
 import at.favre.lib.bytes.Bytes;
-import at.favre.lib.crypto.HFunctionFactory;
-import at.favre.lib.crypto.SingleStepKdf;
+import at.favre.lib.crypto.singlstepkdf.HFunctionFactory;
+import at.favre.lib.crypto.singlstepkdf.SingleStepKdf;
 import org.junit.Test;
 
 public class TestVectorGen {

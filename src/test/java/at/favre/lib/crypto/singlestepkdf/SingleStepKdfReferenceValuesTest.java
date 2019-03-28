@@ -1,6 +1,7 @@
-package at.favre.lib.crypto;
+package at.favre.lib.crypto.singlestepkdf;
 
 import at.favre.lib.bytes.Bytes;
+import at.favre.lib.crypto.singlstepkdf.SingleStepKdf;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
