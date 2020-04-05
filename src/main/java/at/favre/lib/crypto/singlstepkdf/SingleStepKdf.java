@@ -151,7 +151,6 @@ public final class SingleStepKdf {
         return derive(sharedSecretZ, outLengthBytes, null, fixedInfo);
     }
 
-
     /**
      * KDM - a one step key derivation function as described in NIST SP 800-56C REV. 1 Chapter 4.1.
      * <p>

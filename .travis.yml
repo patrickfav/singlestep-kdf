@@ -1,9 +1,7 @@
 # To let the CI execute the maven wrapper, use this command and push the change:
 #    git update-index --chmod=+x mvnw
 
-sudo: false # route your build to the container-based infrastructure for a faster build
 language: java
-install: true
 jdk:
   - openjdk8
 
@@ -17,7 +15,7 @@ before_install:
   - tar xvf secrets.tar
 
 script:
-  - ./mvnw clean install -X -Djarsigner.skip=false checkstyle:check
+  - ./mvnw clean install -Djarsigner.skip=false
 
 after_success:
   - ./mvnw test jacoco:report coveralls:report
@@ -30,14 +28,14 @@ deploy:
       branch: master
       tags: true
   - provider: releases
-    api_key:
+    token:
       secure: "OUt8CaFFdEVRmoLnqiqcyUkRAlhonOw+fAvQEAYl6ROA8cRRzhSleVIElmRkwVsaNCWsmOyviEPSbuzGKQAajQTjRP5y44/eX+aLBkZDVhjCyH1hhR63NzZTgYJZeE00AT+Fqd1afrPDHYVyBI+zX7/9CUu34pbARh/Bkbpk79CATkAcI9+OAGAs7flhBvToa3MIWOW6Bwy+1liiQnzAGNGPRL4GmwUPpTgccoPSn/HfV11gzEI1krf+bAZg/dGmVonTTi2FyOWo1pAiiaQ6oDlrFBPoRZYSYjFJ+PeoeHoQT2hWSibywUkzdWmQN6lhXXjIlTENHo3PAutDQUrQJlfu4FeVTeSXqRxNuGYzLNwQDKwgXDPhWEiDXp1swkKYRMS6TGMOktTJid9GbUS/nPG6g6rGRqlb0CuTeX5dm94zmiuoWaxp9HKj84ksF6AknzD2BI8bTKVNxgzNnDofW75EgD4cAC/kDtsCbiTEvpUZTSaW9HbLliFIDh8BUOj80ctZM0Qt75Qn41Oa4whHQJtPv4iAQ1r4HqtKGhrE4TtqkQRPRiUyAQVGiWFWmU88c5JoFL5D820ImYgbCgfKi8oNAWAwW6PVP5X8ZriUstkf0yx3Gzvjp7jYZbsNUx+nAcZooIUSf0o1BHriUFRtCgidQvZSHzZ7ZHsGQqYGGDc="
     file_glob: true
     file:
       - "target/singlestep-*.jar"
       - "target/*.sha256"
       - "target/checksum-sha256.txt"
-    skip_cleanup: true
+    cleanup: true
     on:
       branch: master
       tags: true
