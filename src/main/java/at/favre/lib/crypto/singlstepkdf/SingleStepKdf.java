@@ -55,7 +55,6 @@ import java.util.Objects;
  * string is denoted by “KDF” in this document.)</li>
  * </ul>
  * <p>
- * <p>
  * see https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf
  */
 @SuppressWarnings("WeakerAccess")
