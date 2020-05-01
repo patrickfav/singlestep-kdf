@@ -14,11 +14,13 @@ This is a standalone, lightweight, simple to use, fully tested and stable implem
 
 Add dependency to your `pom.xml`:
 
-    <dependency>
-        <groupId>at.favre.lib</groupId>
-        <artifactId>singlestep-kdf</artifactId>
-        <version>{latest-version}</version>
-    </dependency>
+```xml
+<dependency>
+    <groupId>at.favre.lib</groupId>
+    <artifactId>singlestep-kdf</artifactId>
+    <version>{latest-version}</version>
+</dependency>
+```
 
 A very simple example:
 
@@ -88,11 +90,13 @@ The artifacts are deployed to [jcenter](https://bintray.com/bintray/jcenter) and
 
 Add dependency to your `pom.xml`:
 
-    <dependency>
-        <groupId>at.favre.lib</groupId>
-        <artifactId>singlestep-kdf</artifactId>
-        <version>{latest-version}</version>
-    </dependency>
+```xml
+<dependency>
+    <groupId>at.favre.lib</groupId>
+    <artifactId>singlestep-kdf</artifactId>
+    <version>{latest-version}</version>
+</dependency>
+```
 
 ### Gradle
 
