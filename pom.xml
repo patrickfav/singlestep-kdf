@@ -111,6 +111,6 @@
 
     <ciManagement>
         <system>Travis</system>
-        <url>https://travis-ci.org/patrickfav/singlestep-kdf</url>
+        <url>https://travis-ci.com/patrickfav/singlestep-kdf</url>
     </ciManagement>
 </project>

@@ -3,7 +3,7 @@
 This is an implementation of the single-step key derivation function as described in [NIST SP 800-56C revision 1, chapter 4](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf). It is an unopinionated approach towards the subject, allowing all 3 options (message digest, hmac and kmac) as H function and leaving open the exact format of the `fixedInfo` parameter.
 
 [![Download](https://api.bintray.com/packages/patrickfav/maven/singlestep-kdf/images/download.svg)](https://bintray.com/patrickfav/maven/singlestep-kdf/_latestVersion)
-[![Build Status](https://travis-ci.org/patrickfav/singlestep-kdf.svg?branch=master)](https://travis-ci.org/patrickfav/singlestep-kdf)
+[![Build Status](https://travis-ci.com/patrickfav/singlestep-kdf.svg?branch=master)](https://travis-ci.com/patrickfav/singlestep-kdf)
 [![Javadocs](https://www.javadoc.io/badge/at.favre.lib/singlestep-kdf.svg)](https://www.javadoc.io/doc/at.favre.lib/singlestep-kdf)
 [![Coverage Status](https://coveralls.io/repos/github/patrickfav/singlestep-kdf/badge.svg?branch=master)](https://coveralls.io/github/patrickfav/singlestep-kdf?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/bbc7ebd960a9f0bb7baa/maintainability)](https://codeclimate.com/github/patrickfav/singlestep-kdf/maintainability)
