@@ -43,7 +43,7 @@ import java.util.Objects;
  *     out = func.calculate()
  * </pre>
  * <p>
- * see https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf
+ * see <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf">NIST.SP.800-56Cr1</a>
  */
 @SuppressWarnings("WeakerAccess")
 public interface HFunction {
@@ -53,7 +53,7 @@ public interface HFunction {
      * with hash type functions and may throw an {@link UnsupportedOperationException}. Call this before {@link #update(byte[])}
      *
      * @param key to be used; if null is passed, default_salt is used, which is in the case of
-     *            HMAC a empty byte array the length of the underyling hash function (e.g. 32
+     *            HMAC an empty byte array the length of the underyling hash function (e.g. 32
      *            bytes for SHA-256)
      */
     void init(byte[] key);
@@ -92,7 +92,7 @@ public interface HFunction {
     int getHFuncOutputBytes();
 
     /**
-     * Update the function with a new input that will internally added to the
+     * Update the function with a new input that will internally add to the
      * already available input
      *
      * @param array to process
@@ -235,8 +235,7 @@ public interface HFunction {
             if (name.startsWith("sha1") || name.startsWith("sha224") || name.startsWith("sha256")
                     || name.startsWith("hmacsha1") || name.startsWith("hmacsha256")) {
                 return 64;
-            } else if (name.startsWith("sha512") || name.startsWith("sha384") || name.equals("sha256")
-                    || name.startsWith("hmacsha512")) {
+            } else if (name.startsWith("sha512") || name.startsWith("sha384") || name.startsWith("hmacsha512")) {
                 return 128;
             } else if (name.startsWith("sha3224")) {
                 return 144;

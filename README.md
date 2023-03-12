@@ -1,15 +1,20 @@
 # Single Step KDF (NIST SP 800-56C)
 
-This is an implementation of the single-step key derivation function as described in [NIST SP 800-56C revision 1, chapter 4](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf). It is an unopinionated approach towards the subject, allowing all 3 options (message digest, hmac and kmac) as H function and leaving open the exact format of the `fixedInfo` parameter.
-
+This is an implementation of the single-step key derivation function as described
+in [NIST SP 800-56C revision 1, chapter 4](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr1.pdf).
+It is an unopinionated approach towards the subject, allowing all 3 options (message digest, hmac and kmac) as H
+function and leaving open the exact format of the `fixedInfo` parameter.
 
 [![Maven Central](https://img.shields.io/maven-central/v/at.favre.lib/singlestep-kdf)](https://mvnrepository.com/artifact/at.favre.lib/singlestep-kdf)
-[![Build Status](https://travis-ci.com/patrickfav/singlestep-kdf.svg?branch=master)](https://travis-ci.com/patrickfav/singlestep-kdf)
+[![Github Actions](https://github.com/patrickfav/singlestep-kdf/actions/workflows/build_deploy.yml/badge.svg)](https://github.com/patrickfav/singlestep-kdf/actions)
 [![Javadocs](https://www.javadoc.io/badge/at.favre.lib/singlestep-kdf.svg)](https://www.javadoc.io/doc/at.favre.lib/singlestep-kdf)
-[![Coverage Status](https://coveralls.io/repos/github/patrickfav/singlestep-kdf/badge.svg?branch=master)](https://coveralls.io/github/patrickfav/singlestep-kdf?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/bbc7ebd960a9f0bb7baa/maintainability)](https://codeclimate.com/github/patrickfav/singlestep-kdf/maintainability)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=patrickfav_singlestep-kdf&metric=coverage)](https://sonarcloud.io/summary/new_code?id=patrickfav_singlestep-kdf)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=patrickfav_singlestep-kdf&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=patrickfav_singlestep-kdf)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=patrickfav_singlestep-kdf&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=patrickfav_singlestep-kdf)
 
-This is a standalone, lightweight, simple to use, fully tested and stable implementation in Java. The code is compiled with [Java 7](https://en.wikipedia.org/wiki/Java_version_history#Java_SE_7) to be compatible with most [_Android_](https://www.android.com/) versions as well as normal Java applications.
+This is a standalone, lightweight, simple to use, fully tested and stable implementation in Java. The code is compiled
+with [Java 7](https://en.wikipedia.org/wiki/Java_version_history#Java_SE_7) to be compatible with most [
+_Android_](https://www.android.com/) versions as well as normal Java applications.
 
 ## Quickstart
 
@@ -42,7 +47,9 @@ NIST 800-56C specifies the KDF with an H-function which may be a [hash](https://
 
 ### Using with Message Digest (Option 1)
 
-Using Option 1, ie. `H(x) = hash(x)`, where hash is an approved hash function. Note that when you use this option, the salt parameter is not supported. If you want to incorporate a salt just include it into the `fixedInfo` parameter. **If you have no specific reason for choosing Option 1, I would always prefer Option 2 (HMAC) over this one.**
+Using Option 1, i.e. `H(x) = hash(x)`, where hash is an approved hash function. Note that when you use this option, the
+salt parameter is not supported. If you want to incorporate a salt just include it into the `fixedInfo` parameter. **If
+you have no specific reason for choosing Option 1, I would always prefer Option 2 (HMAC) over this one.**
 
 ```java
 // a shared secret provided by your protocol
@@ -55,7 +62,11 @@ SecretKey secretKey = new SecretKeySpec(keyMaterial, "AES");
 ```
 
 ### Using with HMAC (Option 2)
-Using Option 2, ie. `H(x) = HMAC-hash(salt, x)`, where HMAC-hash is an implementation of the HMAC algorithm (as defined in FIPS 198) employing an approved hash function. A salt which serves as the HMAC key, and x (the input to H) is a bit string that serves as the HMAC "message". This library can use any `Mac` implementation. If no salt is provided, an empty array is internally initialized.
+
+Using Option 2, i.e. `H(x) = HMAC-hash(salt, x)`, where HMAC-hash is an implementation of the HMAC algorithm (as defined
+in FIPS 198) employing an approved hash function. A salt which serves as the HMAC key, and x (the input to H) is a bit
+string that serves as the HMAC "message". This library can use any `Mac` implementation. If no salt is provided, an
+empty array is internally initialized.
 
 ```java
 byte[] keyMaterial = SingleStepKdf.fromHmacSha256().derive(sharedSecret, 32, salt, fixedInfo);
@@ -64,7 +75,13 @@ byte[] keyMaterial = SingleStepKdf.fromHmacSha256().derive(sharedSecret, 32, sal
 
 ### Using with KMAC (Option 3)
 
-KMAC is a MAC using [SHA-3/Keccak](https://en.wikipedia.org/wiki/SHA-3). Unlike SHA-1 and SHA-2, [Keccak](http://keccak.noekeon.org/) does not have the [length-extension weakness](https://en.wikipedia.org/wiki/Length_extension_attack), hence does not need the HMAC nested construction. Instead, MAC computation can be performed by simply prepending the message with the key. Java has a SHA-3 implementation [since version 9](https://openjdk.java.net/jeps/287). This library is designed to support Java 7, so no default implementation is present for KMAC. It is probably quite easy to implement it yourself using either the `HFunctionFactory.MacFactory` or implementing yourself with `HFunction`.
+KMAC is a MAC using [SHA-3/Keccak](https://en.wikipedia.org/wiki/SHA-3). Unlike SHA-1 and
+SHA-2, [Keccak](http://keccak.noekeon.org/) does not have
+the [length-extension weakness](https://en.wikipedia.org/wiki/Length_extension_attack), hence does not need the HMAC
+nested construction. Instead, MAC computation can be performed by simply prepending the message with the key. Java has
+an SHA-3 implementation [since version 9](https://openjdk.java.net/jeps/287). This library is designed to support Java
+7, so no default implementation is present for KMAC. It is probably quite easy to implement it yourself using either
+the `HFunctionFactory.MacFactory` or implementing yourself with `HFunction`.
 
 ### Using custom Message Digest / HMAC implementation
 
@@ -77,11 +94,18 @@ SingleStepKdf sha1Kdf = SingleStepKdf.from(new HFunctionFactory.Default.DigestFa
 SingleStepKdf hmacSha1Kdf = SingleStepKdf.from(new HFunctionFactory.Default.DigestFactory("HmacSHA1"));
 ```
 
-### How to use the Fixed-Info Parameter 
+### How to use the Fixed-Info Parameter
 
-A bit string of context-specific data that is appropriate for the relying key-establishment scheme. As its name suggests, the value of `FixedInfo` does not change during the execution of the process.
+A bit string of context-specific data that is appropriate for the relying on key-establishment scheme. As its name
+suggests, the value of `FixedInfo` does not change during the execution of the process.
 
-`FixedInfo` may, for example, include appropriately formatted representations of the values of salt and/or the output length. The inclusion of additional copies of the values of salt and the output length in `FixedInfo` would ensure that each block of derived keying material is affected by all of the information conveyed in `OtherInput`. See [SP 800-56A](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf) and [SP 800-56B](https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-56br1.pdf) for more detailed recommendations concerning the format and content of `FixedInfo` (also known as OtherInfo in earlier versions of those documents).
+`FixedInfo` may, for example, include appropriately formatted representations of the values of salt and/or the output
+length. The inclusion of additional copies of the values of salt and the output length in `FixedInfo` would ensure that
+each block of derived keying material is affected by all the information conveyed in `OtherInput`.
+See [SP 800-56A](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf)
+and [SP 800-56B](https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-56br1.pdf) for more detailed
+recommendations concerning the format and content of `FixedInfo` (also known as OtherInfo in earlier versions of those
+documents).
 
 ## Download
 
@@ -107,7 +131,7 @@ Add to your `build.gradle` module dependencies:
 
 ### Local Jar
 
-[Grab jar from latest release.](https://github.com/patrickfav/singlestep-kdf/releases/latest)
+[Grab jar from the latest release.](https://github.com/patrickfav/singlestep-kdf/releases/latest)
 
 
 ## Description
@@ -128,13 +152,21 @@ Given knowledge of the key `k`, and (perhaps) partial knowledge of a message `x`
 
 This property is consistent with the use of the MAC algorithm as the specification of a family of pseudorandom functions defined on the appropriate message space and indexed by the choice of MAC key. Under Option 2 and Option 3 of the KDF specification below, the auxiliary function H is a particular selection from such a family.
 
-### Two Step Key Derivation Function
+### Two-Step Key Derivation Function
 
-NIST 800-56C Rev1 also describes a two step kdf with a extract and expand phase. The most prominent implementation of it is [HKDF (RFC5869)](https://tools.ietf.org/html/rfc5869). A java implementation of it can be [found here](https://github.com/patrickfav/hkdf).
+NIST 800-56C Rev1 also describes a two-step kdf with an extract and expand phase. The most prominent implementation of
+it is [HKDF (RFC5869)](https://tools.ietf.org/html/rfc5869). A java implementation of it can
+be [found here](https://github.com/patrickfav/hkdf).
 
 ### Test Vectors
 
-Unfortunately it seems that the NIST did not provide any official test vectors ([see this post](https://crypto.stackexchange.com/questions/64140/where-can-i-find-official-test-vectors-for-nist-sp-800-56c-r1-single-step-kdf)). This implementation ist tested against the [code snippets posted here](https://stackoverflow.com/questions/10879658/existing-implementations-for-nist-sp-800-56a-concatenation-key-derivation-functi/10971402#10971402). Additionally I released my [own test vectors in the wiki](https://github.com/patrickfav/singlestep-kdf/wiki/NIST-SP-800-56C-Rev1:-Non-Official-Test-Vectors) so you could test against another possible already existing implementation.
+Unfortunately it seems that the NIST did not provide any official test
+vectors ([see this post](https://crypto.stackexchange.com/questions/64140/where-can-i-find-official-test-vectors-for-nist-sp-800-56c-r1-single-step-kdf)).
+This implementation ist tested against
+the [code snippets posted here](https://stackoverflow.com/questions/10879658/existing-implementations-for-nist-sp-800-56a-concatenation-key-derivation-functi/10971402#10971402).
+Additionally, I released
+my [own test vectors in the wiki](https://github.com/patrickfav/singlestep-kdf/wiki/NIST-SP-800-56C-Rev1:-Non-Official-Test-Vectors),
+so you could test against another possible already existing implementation.
 
 ## Security Relevant Information
 
@@ -147,7 +179,7 @@ The build will fail if any issue is found.
 
 #### Signed Jar
 
-The provided JARs in the Github release page are signed with my private key:
+The provided JARs in the GitHub release page are signed with my private key:
 
     CN=Patrick Favre-Bulle, OU=Private, O=PF Github Open Source, L=Vienna, ST=Vienna, C=AT
     Validity: Thu Sep 07 16:40:57 SGT 2017 to: Fri Feb 10 16:40:57 SGT 2034
@@ -189,7 +221,7 @@ This project uses my [`common-parent`](https://github.com/patrickfav/mvn-common-
 the plugin versions aswell as providing the checkstyle config rules. Specifically they are maintained in [`checkstyle-config`](https://github.com/patrickfav/checkstyle-config). Locally the files will be copied after you `mvnw install` into your `target` folder and is called
 `target/checkstyle-checker.xml`. So if you use a plugin for your IDE, use this file as your local configuration.
 
-## Tech Stack
+## Tech-Stack
 
 * Java 7
 * Maven (Wrapper)

@@ -7,7 +7,7 @@
     <parent>
         <groupId>at.favre.lib</groupId>
         <artifactId>common-parent</artifactId>
-        <version>12</version>
+        <version>20</version>
     </parent>
 
     <artifactId>singlestep-kdf</artifactId>
@@ -21,16 +21,14 @@
     <url>https://github.com/patrickfav/singlestep-kdf</url>
     <inceptionYear>2018</inceptionYear>
 
-    <repositories>
-        <repository>
-            <id>jcenter</id>
-            <name>jcenter</name>
-            <url>https://jcenter.bintray.com</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+    <properties>
+        <!-- SonarQube Config -->
+        <sonar.organization>patrickfav</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.language>java</sonar.language>
+    </properties>
 
     <build>
         <plugins>
@@ -53,10 +51,6 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -84,23 +78,14 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.67</version>
+            <version>1.70</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>bintray-patrickfav</id>
-            <name>patrickfav-singlestep-kdf</name>
-            <url>https://api.bintray.com/maven/patrickfav/maven/singlestep-kdf/;publish=1</url>
-        </repository>
-    </distributionManagement>
-
     <scm>
-        <connection>https://github.com/patrickfav/singlestep-kdf.git</connection>
-        <developerConnection>https://github.com/patrickfav/singlestep-kdf.git</developerConnection>
-        <tag>HEAD</tag>
+        <connection>scm:git:https://github.com/patrickfav/singlestep-kdf.git</connection>
+        <developerConnection>scm:git:https://github.com/patrickfav/singlestep-kdf.git</developerConnection>
         <url>https://github.com/patrickfav/singlestep-kdf</url>
     </scm>
 
@@ -110,7 +95,7 @@
     </issueManagement>
 
     <ciManagement>
-        <system>Travis</system>
-        <url>https://travis-ci.com/patrickfav/singlestep-kdf</url>
+        <system>Github Actions</system>
+        <url>https://github.com/patrickfav/singlestep-kdf/actions</url>
     </ciManagement>
 </project>
