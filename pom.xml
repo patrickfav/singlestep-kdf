@@ -18,7 +18,7 @@
     <description>Single Step Key Derivation Function (KDF) as defined in NIST SP 800-56C, Sect 5.8.1 as well as 800-56A.
         Usually used in key agreement protocols.
     </description>
-    <url>https://github.com/patrickfav/singlestep-kdf</url>
+    <url>https://favr.dev/opensource/singlestep-kdf</url>
     <inceptionYear>2018</inceptionYear>
 
     <properties>
