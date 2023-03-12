@@ -2,8 +2,10 @@
 
 ## v0.3.0
 
-* use block length if null salt is provided instead of hash out length (makes not difference, hmac always pads to block length) #1
+* use block length if null salt is provided instead of hash out length (makes no difference, hmac always pads to block length) #1
 * add OSWAP dependency check plugin to Maven POM #2
+* update various dependencies and move CI to github actions
+* start using sonaqube
 
 ## v0.2.0
 
